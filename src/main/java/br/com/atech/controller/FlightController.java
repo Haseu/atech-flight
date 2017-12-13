@@ -7,9 +7,10 @@ import br.com.atech.specification.search.FlightSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by andre on 11/12/2017.
@@ -26,17 +27,10 @@ public class FlightController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Flight> index( @RequestParam(value = "departureTime", required = false) Date departureTime,
-                               @RequestParam(value = "arrivalTime", required = false) Date arrivalTime,
-                               @RequestParam(value = "departureCity", required = false) String departureCity,
-                               @RequestParam(value = "arrivalCity", required = false) String arrivalCity,
-                               @RequestParam(value = "airplane", required = false) String airplane,
-                               @RequestParam(value = "pilot", required = false) String pilot,
-                               @RequestParam(value = "status", required = false) String status,
+    public Page<Flight> index(FlightSearch search,
                                Pageable pageable) {
 
-        FlightSearch filter = new FlightSearch();
-        FlightSpecification specification = new FlightSpecification(filter);
+        FlightSpecification specification = new FlightSpecification(search);
 
         return flightService.findAll(specification, pageable);
     }

@@ -4,24 +4,37 @@ import br.com.atech.entity.Flight;
 import br.com.atech.specification.search.FlightSearch;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by andre on 11/12/2017.
  */
 public class FlightSpecification implements Specification<Flight> {
 
-    private FlightSearch citeria;
+    private FlightSearch criteria;
 
     public FlightSpecification(FlightSearch flightSearch){
-        this.citeria = flightSearch;
+        this.criteria = flightSearch;
     }
 
     @Override
-    public Predicate toPredicate(Root<Flight> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return null;
+    public Predicate toPredicate(Root<Flight> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {
+
+        Path departureCity = root.get("departureCity").get("name");
+        Path arrivalCity = root.get("arrivalCity").get("name");
+
+        final List<Predicate> predicates = new ArrayList<Predicate>();
+
+        if(criteria.getDepartureCity() != null){
+            predicates.add(cb.or(cb.like(cb.lower(departureCity), "%"+criteria.getDepartureCity().toLowerCase()+"%")));
+        }
+
+        if(criteria.getArrivalCity() != null){
+            predicates.add(cb.or(cb.like(cb.lower(arrivalCity), "%"+criteria.getArrivalCity().toLowerCase()+"%")));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[predicates.size()]));
     }
 }

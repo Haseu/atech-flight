@@ -1,0 +1,38 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Detalhe do Voo #{{flight.id}}</h1>
+
+    <div class="row">
+        <div class="col-md-2">Horário de partida</div>
+        <div class="col-md-10">{{flight.departureTime | date:'dd/MM/yyyy'}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Horário de chegada:</div>
+        <div class="col-md-10">{{flight.arrivalTime | date:'dd/MM/yyyy'}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Origem:</div>
+        <div class="col-md-10">{{flight.departureCity.name}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Destino:</div>
+        <div class="col-md-10">{{flight.arrivalCity.name}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Piloto:</div>
+        <div class="col-md-10">{{flight.pilot.name}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Avião:</div>
+        <div class="col-md-10">{{flight.airplane.name}}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">Status:</div>
+        <div class="col-md-10">{{flight.status.name}}</div>
+    </div>
+</div>
