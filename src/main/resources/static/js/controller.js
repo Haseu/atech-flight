@@ -18,12 +18,24 @@ appControllers.controller('FlightCtrl', ['$scope', '$routeParams', 'flightServic
 
         $scope.applyFilter = function() {
 
-            var params = {"departureCity":$scope.departureCity, "arrivalCity":$scope.arrivalCity};
+            var params = {"departureCity":$scope.departureCity, "arrivalCity":$scope.arrivalCity, "status":$scope.status};
+
+            params = clean(params);
+
             var qs = $httpParamSerializer(params);
 
             flightServices.allByFilter(qs ,function(response){
                $scope.flights = response.data.content;
             });
+
+            function clean(obj) {
+                for (var prop in obj) {
+                    if (obj[prop] === null || obj[prop] === undefined || obj[prop] === "") {
+                        delete obj[prop];
+                    }
+                }
+                return obj;
+            }
         };
     }]
 );

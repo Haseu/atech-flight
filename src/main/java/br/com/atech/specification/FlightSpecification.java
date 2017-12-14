@@ -24,15 +24,20 @@ public class FlightSpecification implements Specification<Flight> {
 
         Path departureCity = root.get("departureCity").get("name");
         Path arrivalCity = root.get("arrivalCity").get("name");
+        Path status = root.get("status").get("name");
 
         final List<Predicate> predicates = new ArrayList<Predicate>();
 
         if(criteria.getDepartureCity() != null){
-            predicates.add(cb.or(cb.like(cb.lower(departureCity), "%"+criteria.getDepartureCity().toLowerCase()+"%")));
+            predicates.add(cb.like(cb.lower(departureCity), "%"+criteria.getDepartureCity().toLowerCase()+"%"));
         }
 
         if(criteria.getArrivalCity() != null){
-            predicates.add(cb.or(cb.like(cb.lower(arrivalCity), "%"+criteria.getArrivalCity().toLowerCase()+"%")));
+            predicates.add(cb.like(cb.lower(arrivalCity), "%"+criteria.getArrivalCity().toLowerCase()+"%"));
+        }
+
+        if(criteria.getStatus() != null) {
+            predicates.add(cb.like(cb.lower(status), "%"+criteria.getStatus().toLowerCase()+"%"));
         }
 
         return cb.and(predicates.toArray(new Predicate[predicates.size()]));
